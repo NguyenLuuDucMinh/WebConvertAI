@@ -1,0 +1,911 @@
+/* --- Variables and Base Styles --- */
+:root {
+    /* Colors */
+    --primary-color: #6ee7b7;
+    --primary-color-hover: #4ad1a3;
+    --primary-color-active-bg: rgba(110, 231, 183, 0.15);
+    --bg-dark-primary: #121821;
+    --bg-dark-secondary: #1a202c;
+    --bg-dark-tertiary: #2d3748;
+    --text-primary-dark: #e2e8f0;
+    --text-secondary-dark: #a0aec0;
+    --text-tertiary-dark: #718096;
+    --header-overlay-text: #ffffff;
+    --border-dark: #4a5568;
+    --border-dark-light: #718096;
+    --navbar-bg: #1a202c;
+    /* Navbar background color */
+    --navbar-border: #4a5568;
+    --navbar-height: 60px;
+    /* Define navbar height */
+
+    /* Code Block Colors */
+    --code-bg-dark: #282c34;
+    --code-text-dark: #abb2bf;
+    --copy-btn-bg: #4a5568;
+    --copy-btn-hover-bg: var(--primary-color);
+    --copy-btn-icon: #e2e8f0;
+
+    /* Highlight & Diagram */
+    --highlight-bg: rgba(110, 231, 183, 0.08);
+    --highlight-border: rgba(110, 231, 183, 0.2);
+    --diagram-bg: rgba(45, 55, 72, 0.3);
+    --diagram-icon-color: var(--text-secondary-dark);
+
+    /* Fonts & Layout */
+    --heading-font: 'Poppins', sans-serif;
+    --body-font: 'Lato', sans-serif;
+    --sidebar-width: 260px;
+    --content-max-width: 960px;
+    --transition-speed: 0.25s ease;
+    --scroll-reveal-duration: 0.7s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--body-font);
+    line-height: 1.7;
+    color: var(--text-primary-dark);
+    background-color: var(--bg-dark-primary);
+    /* Back to solid dark background */
+    padding-left: var(--sidebar-width);
+    /* Add padding top to push content below fixed navbar */
+    padding-top: var(--navbar-height);
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+/* --- ================= TOP NAVBAR ================= --- */
+.top-navbar {
+    position: fixed;
+    /* Fixed position */
+    top: 0;
+    left: 0;
+    /* Start from left edge */
+    width: 100%;
+    /* Full width */
+    height: var(--navbar-height);
+    background-color: var(--navbar-bg);
+    border-bottom: 1px solid var(--navbar-border);
+    z-index: 100;
+    /* Ensure it's above everything else */
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    /* Horizontal padding */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    /* Space out brand and links */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    /* Optional max width for content inside navbar */
+    margin: 0 auto;
+    /* Center container */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 1.2em;
+    font-weight: 600;
+    font-family: var(--heading-font);
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.navbar-brand span {
+    /* Style for text brand */
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links li {
+    margin-left: 25px;
+    /* Spacing between links */
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: var(--text-secondary-dark);
+    font-size: 0.95em;
+    padding: 5px 0;
+    /* Add padding for larger clickable area */
+    position: relative;
+    transition: color var(--transition-speed);
+}
+
+.navbar-links a::after {
+    /* Underline effect on hover */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -3px;
+    left: 50%;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links a:focus {
+    color: var(--text-primary-dark);
+}
+
+.navbar-links a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+
+/* --- Sidebar (TOC) --- */
+.sidebar {
+    position: fixed;
+    left: 0;
+    /* Adjust top position to be below the navbar */
+    top: var(--navbar-height);
+    width: var(--sidebar-width);
+    /* Adjust height to fill remaining space */
+    height: calc(100vh - var(--navbar-height));
+    background-color: var(--bg-dark-secondary);
+    /* Solid background */
+    border-right: 1px solid var(--border-dark);
+    padding: 30px 0;
+    overflow-y: auto;
+    z-index: 10;
+    /* Keep z-index high, but below navbar */
+    transition: transform 0.3s ease;
+}
+
+/* Scrollbar styles giữ nguyên */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--bg-dark-secondary);
+    margin: 5px 0;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--border-dark);
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-dark-light);
+}
+
+/* Other sidebar styles giữ nguyên */
+.sidebar h3 {
+    font-family: var(--heading-font);
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    padding: 0 25px 15px 25px;
+    border-bottom: 1px solid var(--border-dark);
+    font-size: 1.1em;
+    text-align: left;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin-bottom: 0;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-secondary-dark);
+    padding: 10px 25px;
+    margin: 1px 10px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    transition: background-color var(--transition-speed), color var(--transition-speed), border-left var(--transition-speed), padding-left var(--transition-speed);
+    position: relative;
+    border-left: 3px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar a:hover {
+    background-color: var(--bg-dark-tertiary);
+    color: var(--text-primary-dark);
+    border-left-color: var(--border-dark-light);
+    padding-left: 28px;
+}
+
+.sidebar a.active {
+    background-color: var(--primary-color-active-bg);
+    color: var(--primary-color);
+    font-weight: 600;
+    border-left-color: var(--primary-color);
+}
+
+
+/* --- Content Area --- */
+.content-area {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    /* Remove padding-top, body already has it */
+    padding: 0 50px 50px 50px;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- Hero Container (đã khôi phục) --- */
+.hero-container {
+    position: relative;
+    margin-top: 50px;
+    /* Add space between navbar and banner */
+    margin-bottom: 70px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-dark);
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hero-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-banner img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.5);
+}
+
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(18, 24, 33, 0.6), rgba(18, 24, 33, 0.8));
+    z-index: 2;
+}
+
+.overlay-header {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: var(--header-overlay-text);
+    padding: 40px 20px;
+    max-width: 80%;
+}
+
+.overlay-header h1 {
+    font-size: 3.2em;
+    margin-bottom: 15px;
+    color: inherit;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.overlay-header .subtitle {
+    font-size: 1.4em;
+    color: inherit;
+    opacity: 0.85;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+
+/* --- Sections & Reveal Animation --- */
+section {
+    margin-bottom: 70px;
+    padding: 40px;
+    background-color: var(--bg-dark-secondary);
+    /* Solid background */
+    border-radius: 12px;
+    border: 1px solid var(--border-dark);
+    transition: border-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+section:hover {
+    border-color: var(--border-dark-light);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Reveal styles giữ nguyên */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity var(--scroll-reveal-duration) ease-out, transform var(--scroll-reveal-duration) ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Headings & Text --- */
+/* Giữ nguyên */
+h2 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-dark);
+    font-weight: 600;
+    font-size: 1.9em;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 0.85em;
+    color: var(--primary-color);
+    opacity: 0.9;
+}
+
+h3 {
+    font-family: var(--heading-font);
+    color: var(--text-primary-dark);
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 1.5em;
+}
+
+p {
+    margin-bottom: 20px;
+    color: var(--text-secondary-dark);
+    font-weight: 400;
+}
+
+ul,
+ol {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 12px;
+    color: var(--text-secondary-dark);
+}
+
+li::marker {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+strong {
+    font-weight: 700;
+    color: var(--text-primary-dark);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed), opacity var(--transition-speed);
+}
+
+a:hover {
+    color: var(--primary-color-hover);
+    text-decoration: underline;
+    opacity: 0.85;
+}
+
+
+/* --- Specific List Styles --- */
+/* Giữ nguyên */
+.numbered-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.numbered-list li {
+    padding-left: 45px;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.numbered-list li span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.1em;
+    width: 30px;
+    text-align: right;
+}
+
+.definition-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.definition-list li {
+    margin-bottom: 20px;
+    padding-left: 45px;
+    position: relative;
+}
+
+.definition-list li span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.1em;
+    width: 30px;
+    text-align: right;
+}
+
+.definition-list.vertical li {
+    padding-left: 0;
+    margin-bottom: 25px;
+}
+
+.definition-list.vertical li span,
+.definition-list.vertical li strong {
+    display: block;
+    color: var(--text-primary-dark);
+    font-weight: 600;
+    margin-bottom: 5px;
+    position: static;
+    width: auto;
+    text-align: left;
+    font-size: 1em;
+}
+
+.definition-list.vertical li strong::after {
+    content: ":";
+}
+
+.definition-list.vertical li p {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.best-practices-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.best-practices-list li {
+    margin-bottom: 25px;
+    padding-left: 0;
+}
+
+.best-practices-list li strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary-dark);
+}
+
+.resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resource-list li {
+    margin-bottom: 10px;
+}
+
+.resource-list a {
+    font-weight: 600;
+}
+
+
+/* --- Tables --- */
+/* Giữ nguyên */
+.definition-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.95em;
+    background-color: var(--bg-dark-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.definition-table th,
+.definition-table td {
+    border: 1px solid var(--border-dark);
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+    border-width: 0 0 1px 0;
+}
+
+.definition-table th {
+    background-color: rgba(110, 231, 183, 0.1);
+    color: var(--primary-color);
+    font-weight: 600;
+    border-bottom-width: 2px;
+    border-color: var(--primary-color)
+}
+
+.definition-table tr:last-child td {
+    border-bottom-width: 0;
+}
+
+.definition-table td:first-child {
+    font-weight: bold;
+    color: var(--text-primary-dark);
+    width: 15%;
+}
+
+.definition-table td:nth-child(2) {
+    width: 55%;
+}
+
+
+/* --- Highlight & Explanation Boxes --- */
+/* Giữ nguyên */
+.highlight-box,
+.explanation-box {
+    background-color: var(--highlight-bg);
+    border: 1px solid var(--highlight-border);
+    border-left: 4px solid var(--primary-color);
+    padding: 20px 25px;
+    margin: 30px 0;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(110, 231, 183, 0.05);
+}
+
+.highlight-box p:last-child,
+.explanation-box p:last-child {
+    margin-bottom: 0;
+}
+
+.highlight-box strong {
+    color: var(--primary-color);
+}
+
+.explanation-box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+/* --- Diagram Placeholder --- */
+/* Giữ nguyên */
+.diagram-placeholder {
+    background: linear-gradient(145deg, rgba(45, 55, 72, 0.3), rgba(45, 55, 72, 0.5));
+    border: 1px dashed var(--border-dark-light);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.diagram-placeholder p {
+    color: var(--text-secondary-dark);
+    font-style: italic;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.diagram-placeholder .icon-large {
+    font-size: 2.5em;
+    color: var(--diagram-icon-color);
+    opacity: 0.6;
+    margin-bottom: 15px;
+}
+
+/* --- Code Blocks --- */
+/* Giữ nguyên */
+.code-block-wrapper {
+    position: relative;
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+pre {
+    background-color: var(--code-bg-dark);
+    color: var(--code-text-dark);
+    padding: 25px;
+    padding-top: 50px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+    line-height: 1.6;
+    border: 1px solid var(--border-dark);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+code.prompt-block {
+    display: block;
+    white-space: pre;
+}
+
+code.language-python {
+    white-space: pre;
+}
+
+code.language-text {
+    white-space: pre-wrap;
+}
+
+.copy-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: var(--copy-btn-bg);
+    color: var(--copy-btn-icon);
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    opacity: 0.7;
+    transition: opacity var(--transition-speed), background-color var(--transition-speed), transform 0.1s ease;
+    z-index: 2;
+}
+
+.code-block-wrapper:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background-color: var(--copy-btn-hover-bg);
+}
+
+.copy-button:active {
+    transform: scale(0.95);
+}
+
+.copy-button i {
+    pointer-events: none;
+}
+
+.copy-button.copied {
+    background-color: #28a745;
+    color: white;
+}
+
+/* --- Footer --- */
+/* Giữ nguyên */
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 35px 0;
+    border-top: 1px solid var(--border-dark);
+    font-size: 0.9em;
+    color: var(--text-secondary-dark);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    :root {
+        --content-max-width: 90%;
+    }
+
+    .overlay-header h1 {
+        font-size: 2.8em;
+    }
+
+    .overlay-header .subtitle {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 992px) {
+    :root {
+        --sidebar-width: 220px;
+    }
+
+    body {
+        padding-left: var(--sidebar-width);
+    }
+
+    .content-area {
+        padding: 0 40px 40px 40px;
+    }
+
+    h2 {
+        font-size: 1.7em;
+    }
+
+    .overlay-header h1 {
+        font-size: 2.5em;
+    }
+
+    .overlay-header .subtitle {
+        font-size: 1.1em;
+    }
+
+    .hero-container {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --content-max-width: 100%;
+    }
+
+    body {
+        padding-left: 0;
+        padding-top: calc(var(--navbar-height) + 0px)
+            /* Ensure body padding respects navbar */
+    }
+
+    /* Adjusted padding-top on body for mobile */
+    .top-navbar {
+        padding: 0 15px;
+    }
+
+    /* Reduce navbar padding */
+    .navbar-brand span {
+        display: none;
+    }
+
+    /* Hide text brand on small screens */
+    .navbar-links li {
+        margin-left: 15px;
+    }
+
+    /* Reduce link spacing */
+    .sidebar {
+        transform: translateX(-105%);
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        z-index: 110;
+    }
+
+    /* Sidebar now covers navbar when open */
+    .sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .content-area {
+        padding: 0 15px 30px 15px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    section {
+        padding: 30px 20px;
+        margin-bottom: 50px;
+    }
+
+    pre {
+        padding: 20px;
+        padding-top: 45px;
+    }
+
+    .numbered-list li,
+    .definition-list li {
+        padding-left: 35px;
+    }
+
+    .numbered-list li span,
+    .definition-list li span {
+        width: 25px;
+    }
+
+    .definition-table,
+    .definition-table tbody,
+    .definition-table tr,
+    .definition-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .definition-table thead {
+        display: none;
+    }
+
+    .definition-table td {
+        border: none;
+        border-bottom: 1px solid var(--border-dark);
+        padding: 10px 5px;
+        background: none;
+    }
+
+    .definition-table td:first-child {
+        font-weight: bold;
+        background-color: var(--bg-dark-tertiary);
+        padding-top: 15px;
+    }
+
+    .definition-table tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--border-dark);
+        border-radius: 4px;
+        background-color: var(--bg-dark-secondary);
+    }
+
+    .hero-container {
+        margin-top: 30px;
+        min-height: 250px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: -15px;
+        margin-right: -15px;
+        box-shadow: none;
+    }
+
+    .overlay-header {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .overlay-header h1 {
+        font-size: 2em;
+    }
+
+    .overlay-header .subtitle {
+        font-size: 1em;
+    }
+
+    /* Optional: Add menu toggle button for mobile - Requires HTML/JS */
+    /* You'll need to add a button in HTML and JS to toggle sidebar.is-open */
+    /*
+     .menu-toggle {
+         display: none; // Hidden on desktop
+         background: none; border: none; color: var(--text-primary-dark);
+         font-size: 1.5em; cursor: pointer; padding: 10px;
+         position: fixed; top: calc(var(--navbar-height) / 2 - 1.5em / 2) ; left: 15px;
+         z-index: 120; // Above sidebar
+     }
+     @media (max-width: 768px) {
+         .menu-toggle { display: block; }
+         .top-navbar .navbar-brand { margin-left: 50px; } // Make space for toggle
+         .top-navbar .navbar-links { display: none; } // Hide links if toggle is present
+     }
+     */
+}
